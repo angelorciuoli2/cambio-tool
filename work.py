@@ -3,7 +3,12 @@ import pandas as pd
 import gspread
 from google.oauth2 import service_account 
 
-creds = service_account.Credentials.from_service_account_file('cambiocredentials.json', scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
+# Access the credentials directly from secrets
+creds_dict = st.secrets["gcp_service_account"]
+scopes = st.secrets["google_scopes"]["scopes"]
+
+# Create credentials using the service account info and scopes
+creds = service_account.Credentials.from_service_account_info(creds_dict, scopes=scopes)
 
 client = gspread.authorize(creds)
 
